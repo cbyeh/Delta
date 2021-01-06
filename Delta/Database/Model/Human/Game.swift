@@ -11,6 +11,12 @@ import Foundation
 import DeltaCore
 import Harmony
 
+public extension Game
+{
+    static let melonDSBIOSIdentifier = "com.rileytestut.MelonDSDeltaCore.BIOS"
+    static let melonDSDSiBIOSIdentifier = "com.rileytestut.MelonDSDeltaCore.DSiBIOS"
+}
+
 @objc(Game)
 public class Game: _Game, GameProtocol
 {
@@ -30,10 +36,24 @@ public class Game: _Game, GameProtocol
             var artworkURL = self.primitiveValue(forKey: #keyPath(Game.artworkURL)) as? URL
             self.didAccessValue(forKey: #keyPath(Game.artworkURL))
             
-            if let unwrappedArtworkURL = artworkURL, unwrappedArtworkURL.isFileURL
+            if let unwrappedArtworkURL = artworkURL
             {
-                // Recreate the stored URL relative to current sandbox location.
-                artworkURL = URL(fileURLWithPath: unwrappedArtworkURL.relativePath, relativeTo: DatabaseManager.gamesDirectoryURL)
+                if unwrappedArtworkURL.isFileURL
+                {
+                    // Recreate the stored URL relative to current sandbox location.
+                    artworkURL = URL(fileURLWithPath: unwrappedArtworkURL.relativePath, relativeTo: DatabaseManager.gamesDirectoryURL)
+                }
+                else if unwrappedArtworkURL.host?.lowercased() == "img.gamefaqs.net", var components = URLComponents(url: unwrappedArtworkURL, resolvingAgainstBaseURL: false)
+                {
+                    // Quick fix for broken album artwork URLs due to host change.
+                    components.host = "gamefaqs1.cbsistatic.com"
+                    components.scheme = "https"
+                    
+                    if let url = components.url
+                    {
+                        artworkURL = url
+                    }
+                }
             }
             
             return artworkURL
@@ -136,5 +156,9 @@ extension Game: Syncable
     
     public var syncableLocalizedName: String? {
         return self.name
+    }
+    
+    public var isSyncingEnabled: Bool {
+        return self.identifier != Game.melonDSBIOSIdentifier && self.identifier != Game.melonDSDSiBIOSIdentifier
     }
 }

@@ -1,12 +1,24 @@
-platform :ios, '10.0'
+platform :ios, '12.0'
 
-use_frameworks!
 inhibit_all_warnings!
 
 target 'Delta' do
-    pod 'SQLite.swift', '~> 0.11.0'
+    use_modular_headers!
+
+    pod 'SQLite.swift', '~> 0.12.0'
     pod 'SDWebImage', '~> 3.8'
     pod 'Fabric', '~> 1.6.0'
     pod 'Crashlytics', '~> 3.8.0'
-    pod 'SMCalloutView'
+    pod 'SMCalloutView', '~> 2.1.0'
+
+    pod 'DeltaCore', :path => 'Cores/DeltaCore'
+    pod 'NESDeltaCore', :path => 'Cores/NESDeltaCore'
+    pod 'SNESDeltaCore', :path => 'Cores/SNESDeltaCore'
+    pod 'N64DeltaCore', :path => 'Cores/N64DeltaCore'
+    pod 'GBCDeltaCore', :path => 'Cores/GBCDeltaCore'
+    pod 'GBADeltaCore', :path => 'Cores/GBADeltaCore'
+    pod 'DSDeltaCore', :path => 'Cores/DSDeltaCore'
+    pod 'MelonDSDeltaCore', :path => 'Cores/MelonDSDeltaCore'
+    pod 'Roxas', :path => 'External/Roxas'
+    pod 'Harmony', :path => 'External/Harmony'
 end
