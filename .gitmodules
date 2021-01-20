@@ -7,6 +7,7 @@
 [submodule "External/Roxas"]
 	path = External/Roxas
 	url = https://github.com/rileytestut/Roxas.git
+	branch = 89510d73ca548da6094348bc2c7b7f1887475d55
 [submodule "Cores/GBADeltaCore"]
 	path = Cores/GBADeltaCore
 	url = https://github.com/rileytestut/GBADeltaCore.git
